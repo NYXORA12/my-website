@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Classroom Locator</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 50px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+  <script>
+    const locations = {
+      "cse": "CSE Department — Block B, Room 205",
+      "ece": "ECE Department — Block A, Room 110",
+      "mech": "Mechanical Dept — Block C, Room 301"
+    };
+
+    function searchDepartment() {
+      const input = document.getElementById("searchInput").value.trim().toLowerCase();
+      const result = locations[input];
+
+      if (result) {
+        document.getElementById("locationResult").innerText = result;
+      } else {
+        document.getElementById("locationResult").innerText = "Department not found.";
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Welcome to Smart Classroom Locator</h1>
+  <p>Enter the department name (e.g., CSE, ECE, MECH):</p>
+  
+  <input type="text" id="searchInput" placeholder="e.g., CSE">
+  <button onclick="searchDepartment()">Search</button>
+
+  <h2>Location</h2>
+  <p id="locationResult">No data yet.</p>
+</body>
+</html>
