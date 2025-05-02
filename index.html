@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Smart_classroom_locator</title>
@@ -131,6 +132,19 @@
       <li onclick="showInfo('AGRI')">AGRI</li>
       <li onclick="showInfo('CIVIL')">CIVIL</li>
     </ul>
+    <div class="category" onclick="toggleList('polyList', this)">
+  Polytechnic <i class="fas fa-angle-right"></i>
+</div>
+<ul class="sub-list" id="polyList">
+  <li onclick="showInfo('DME')">DME</li>
+  <li onclick="showInfo('DAE')">DECE</li>
+  <li onclick="showInfo('D.CIVIL')">D.CIVIL</li>
+  <li onclick="showInfo('DECE')">DECE</li>
+  <li onclick="showInfo('DEEE')">DEEE</li>
+  <li onclick="showInfo('DCSE')">DCSE</li>
+  <li onclick="showInfo('D.X-RAY')">D.X-RAY</li>
+  <li onclick="showInfo('DMLT')">DMLT</li>
+</ul>
   </div>
   <div class="main">
     <h1>Welcome to Our College</h1>
@@ -147,39 +161,49 @@
       const arrow = element.querySelector('i');
       list.classList.toggle('show');
       element.classList.toggle('open');
-    }function showInfo(dept) {
-  const blocks = {
-    "CSE": "A1 Block",
-    "FOOT TECH": "A1 Block",
-    "CSBS": "A1 Block",
-    "MECH": "A3 Block",
-    "SF": "A3 Block",
-    "IT": "B1 Block",
-    "M.TECH CSE": "B1 Block",
-    "EEE": "B1 Block",
-    "AIDS": "B1 Block",
-    "PCT": "B1 Block",
-    "BIO MEDICAL": "Main Block",
-    "ECE": "Main Block",
-    "AERO": "A4 Block",
-    "AGRI": "Civil Block",
-    "CIVIL": "Civil Block"
-  };
-  const block = blocks[dept] || "Not specified";
-  const section = document.getElementById('infoSection');
-  section.innerHTML = `
-    <h2>${dept}</h2>
-    <p><strong>Block:</strong> ${block}</p>
-    <h3>Route Map</h3>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18..." loading="lazy"></iframe>
-    <button class="back-btn" onclick="goHome()">Back to Home</button>
-  `;
-}
+    }
 
-function goHome() {
-  document.getElementById('infoSection').innerHTML = '';
-}
+    function showInfo(dept) {
+      const blocks = {
+        "CSE": "A1 Block",
+        "FOOT TECH": "A1 Block",
+        "CSBS": "A1 Block",
+        "MECH": "A3 Block",
+        "SF": "A3 Block",
+        "IT": "B1 Block",
+        "M.TECH CSE": "B1 Block",
+        "EEE": "B1 Block",
+        "AIDS": "B1 Block",
+        "PCT": "B1 Block",
+        "BIO MEDICAL": "Main Block",
+        "ECE": "Main Block",
+        "AERO": "A4 Block",
+        "AGRI": "Civil Block",
+        "CIVIL": "Civil Block",
+        "DME":"B3 Block",
+        "DAE":"B3 Block",
+        "D.CIVIL":"B3 Block",
+        "DECE":"B3 Block",
+        "DEEE":"B3 Block",
+        "DCSE":"B3 Block",
+        "D.X-RAY":"B3 Block",
+        "DMLT":"B3 Block"
+      };
+      const block = blocks[dept] || "Not specified";
+      const section = document.getElementById('infoSection');
+      section.innerHTML = `
+        <h2>${dept}</h2>
+        <p><strong>Block:</strong> ${block}</p>
+        <h3>Route Map</h3>
+        <!-- Embed your custom Google Map here -->
+        <iframe src="https://www.google.com/maps/d/embed?mid=1eql10tsUK3gm5-uVPuw_nS_nMk7z1jQ" width="100%" height="400" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <button class="back-btn" onclick="goHome()">Back to Home</button>
+      `;
+    }
 
+    function goHome() {
+      document.getElementById('infoSection').innerHTML = '';
+    }
   </script>
 </body>
 </html>
