@@ -2,74 +2,219 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>College Map</title>
+  <title>Smart Classroom Locator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
+    :root {
+      --primary-color: #007BFF;
     }
-    .btn {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+    }
+    .category {
+      cursor: pointer;
+      padding: 10px 0;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .category i {
+      transition: transform 0.3s ease;
+    }
+    .category.open i {
+      transform: rotate(90deg);
+    }
+    .sub-list {
+      list-style: none;
+      padding-left: 15px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .sub-list.show {
+      max-height: 1000px;
+    }
+    .sub-list li {
+      padding: 6px 0;
+      cursor: pointer;
+      color: #ecf0f1;
+    }
+    .sub-list li:hover {
+      text-decoration: underline;
+    }
+    .main {
+      flex: 1;
+      padding: 20px;
+      background-color: #000;
+      color: white;
+      overflow-y: auto;
+    }
+    .welcome-image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .search-container {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      max-width: 400px;
+    }
+    .search-container input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #aaa;
+      border-radius: 4px 0 0 4px;
+    }
+    .search-container button {
+      padding: 10px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
       cursor: pointer;
     }
+    .info-section {
+      margin-top: 30px;
+    }
     iframe {
-      margin-top: 20px;
+      width: 100%;
+      height: 300px;
       border: none;
+      margin-top: 10px;
     }
     .back-btn {
+      display: inline-block;
       margin-top: 20px;
-      padding: 8px 16px;
-      font-size: 14px;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background-color: #1c5f91;
     }
   </style>
 </head>
 <body>
-  <h1 id="welcome">Welcome to Our College</h1>
 
-  <div id="buttonContainer">
-    <button class="btn" onclick="showInfo('CSE')">CSE</button>
-    <button class="btn" onclick="showInfo('ECE')">ECE</button>
-    <button class="btn" onclick="showInfo('EEE')">EEE</button>
-    <button class="btn" onclick="showInfo('MECH')">MECH</button>
-    <button class="btn" onclick="showInfo('CIVIL')">CIVIL</button>
-    <button class="btn" onclick="showInfo('AI&DS')">AI&DS</button>
+  <div class="sidebar">
+    <h2>Departments</h2>
+
+    <!-- Engineering -->
+    <div class="category" onclick="toggleList('engList', this)">
+      Engineering <i class="fas fa-angle-right"></i>
+    </div>
+    <ul class="sub-list" id="engList">
+      <li onclick="showInfo('CSE')">CSE</li>
+      <li onclick="showInfo('FOOT TECH')">FOOT TECH</li>
+      <li onclick="showInfo('CSBS')">CSBS</li>
+      <li onclick="showInfo('MECH')">MECH</li>
+      <li onclick="showInfo('SF')">SF</li>
+      <li onclick="showInfo('IT')">IT</li>
+      <li onclick="showInfo('M.TECH CSE')">M.TECH CSE</li>
+      <li onclick="showInfo('EEE')">EEE</li>
+      <li onclick="showInfo('AIDS')">AIDS</li>
+      <li onclick="showInfo('PCT')">PCT</li>
+      <li onclick="showInfo('BIO MEDICAL')">BIO MEDICAL</li>
+      <li onclick="showInfo('ECE')">ECE</li>
+      <li onclick="showInfo('AERO')">AERO</li>
+      <li onclick="showInfo('AGRI')">AGRI</li>
+      <li onclick="showInfo('CIVIL')">CIVIL</li>
+    </ul>
+
+    <!-- Polytechnic -->
+    <div class="category" onclick="toggleList('polyList', this)">
+      Polytechnic <i class="fas fa-angle-right"></i>
+    </div>
+    <ul class="sub-list" id="polyList">
+      <li onclick="showInfo('DME')">DME</li>
+      <li onclick="showInfo('DECE')">DECE</li>
+      <li onclick="showInfo('D.CIVIL')">D.CIVIL</li>
+      <li onclick="showInfo('DEEE')">DEEE</li>
+      <li onclick="showInfo('DCSE')">DCSE</li>
+      <li onclick="showInfo('D.X-RAY')">D.X-RAY</li>
+      <li onclick="showInfo('DMLT')">DMLT</li>
+    </ul>
   </div>
 
-  <div id="infoSection"></div>
+  <div class="main">
+    <h1>Welcome to Our College</h1>
+    <img src="images/college-photo.jpg" alt="College Photo" class="welcome-image">
+    <div class="search-container">
+      <input type="text" placeholder="Search...">
+      <button><i class="fas fa-search"></i></button>
+    </div>
+    <div class="info-section" id="infoSection"></div>
+  </div>
 
   <script>
-    const departmentInfo = {
-      "CSE": { block: "A1 Block", map: "https://www.google.com/maps/d/embed?mid=1KNcSQvjoU3ffNzudIyqIf_7WhkQWsks&ehbc=2E312F" },
-      "ECE": { block: "A3 Block", map: "https://www.google.com/maps/d/embed?mid=13lQFAKxh6hgutqLy20LRQK6G-WiA76A&ehbc=2E312F" },
-      "EEE": { block: "A4 Block", map: "https://www.google.com/maps/d/embed?mid=1OWpMa-yX7qHotkPL3oj5o58CqnGR1NA&ehbc=2E312F" },
-      "MECH": { block: "B1 Block", map: "https://www.google.com/maps/d/embed?mid=1kwwXz7YIIN2gBW3dERUDHyEC_arx0XI&ehbc=2E312F" },
-      "CIVIL": { block: "Civil Block", map: "https://www.google.com/maps/d/embed?mid=1TP1NNf3CrprD1IRkkFVHiJyk6NUq5Hg&ehbc=2E312F" },
-      "AI&DS": { block: "B3 Block", map: "https://www.google.com/maps/d/embed?mid=15tqsskF6NgyJav2yebPmDkE7nMs24L8&ehbc=2E312F" }
-    };
+    function toggleList(id, element) {
+      const list = document.getElementById(id);
+      list.classList.toggle('show');
+      element.classList.toggle('open');
+    }
 
     function showInfo(dept) {
-      const info = departmentInfo[dept];
-      const section = document.getElementById("infoSection");
-      document.getElementById("welcome").style.display = "none";
-      document.getElementById("buttonContainer").style.display = "none";
+      const blocks = {
+        "CSE": "A1 Block",
+        "FOOT TECH": "A1 Block",
+        "CSBS": "A1 Block",
+        "MECH": "A3 Block",
+        "SF": "A3 Block",
+        "IT": "B1 Block",
+        "M.TECH CSE": "B1 Block",
+        "EEE": "B1 Block",
+        "AIDS": "B1 Block",
+        "PCT": "B1 Block",
+        "BIO MEDICAL": "Main Block",
+        "ECE": "Main Block",
+        "AERO": "A4 Block",
+        "AGRI": "Civil Block",
+        "CIVIL": "Civil Block",
+        "DME": "B3 Block",
+        "DECE": "B3 Block",
+        "D.CIVIL": "B3 Block",
+        "DEEE": "B3 Block",
+        "DCSE": "B3 Block",
+        "D.X-RAY": "B3 Block",
+        "DMLT": "B3 Block"
+      };
 
-      section.innerHTML = `
+      const block = blocks[dept] || "Not Specified";
+      const infoSection = document.getElementById('infoSection');
+
+      infoSection.innerHTML = `
         <h2>${dept}</h2>
-        <p><strong>Block:</strong> ${info.block}</p>
-        <iframe src="${info.map}" width="100%" height="480"></iframe>
-        <br>
+        <p><strong>Block:</strong> ${block}</p>
+        <h3>Route Map</h3>
+        <iframe src="https://www.google.com/maps/d/embed?mid=1eql10tsUK3gm5-uVPuw_nS_nMk7z1jQ" allowfullscreen="" loading="lazy"></iframe>
         <button class="back-btn" onclick="goHome()">Back to Home</button>
       `;
     }
 
     function goHome() {
-      document.getElementById("infoSection").innerHTML = "";
-      document.getElementById("welcome").style.display = "block";
-      document.getElementById("buttonContainer").style.display = "block";
+      document.getElementById('infoSection').innerHTML = '';
     }
   </script>
+
 </body>
 </html>
