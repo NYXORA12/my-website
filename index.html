@@ -2,200 +2,164 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Smart Classroom Locator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Excel Institutions Map</title>
   <style>
-    :root {
-      --primary-color: #007BFF;
-    }
-
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .sidebar {
-      width: 250px;
-      background-color: var(--primary-color);
-      color: white;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .sidebar h2 {
-      margin-top: 0;
-    }
-
-    .category {
-      cursor: pointer;
-      padding: 10px 0;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .category i {
-      transition: transform 0.3s ease;
-    }
-
-    .category.open i {
-      transform: rotate(90deg);
-    }
-
-    .sub-list {
-      list-style: none;
-      padding-left: 15px;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-    }
-
-    .sub-list.show {
-      max-height: 1000px;
-    }
-
-    .sub-list li {
-      padding: 6px 0;
-      cursor: pointer;
-      color: #ecf0f1;
-    }
-
-    .sub-list li:hover {
-      text-decoration: underline;
-    }
-
-    .main {
-      flex: 1;
-      position: relative;
-      background-image: url("https://www.agarum.com/photos/1/1/15/205/c/l/07ca789bc30ba134509f463b4b3b80c3.jpg");
+      background: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .center-box {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 40px;
-      border-radius: 12px;
       text-align: center;
       color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
 
-    .center-box h1 {
-      margin: 0 0 20px;
-      font-size: 2.5rem;
-    }
-
-    .search-container {
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      height: 100vh;
+      width: 100%;
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: none;
+      width: 250px;
+    }
+
+    .info {
+      margin-top: 30px;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 480px;
+      border-radius: 10px;
       margin-top: 10px;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
-    .search-container input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 6px 0 0 6px;
-    }
-
-    .search-container button {
-      padding: 10px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 0 6px 6px 0;
+    button.back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
       cursor: pointer;
-    }
-
-    .search-container button:hover {
-      background-color: #0056b3;
-    }
-
-    @media (max-width: 768px) {
-      .center-box h1 {
-        font-size: 1.8rem;
-      }
-
-      .search-container {
-        flex-direction: column;
-      }
-
-      .search-container input, .search-container button {
-        border-radius: 6px;
-        width: 100%;
-        margin: 5px 0;
-      }
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2>Departments</h2>
-
-    <div class="category" onclick="toggleList('engList', this)">Engineering <i class="fas fa-angle-right"></i></div>
-    <ul class="sub-list" id="engList">
-      <li onclick="showInfo('CSE')">CSE</li>
-      <li onclick="showInfo('FOOT TECH')">FOOT TECH</li>
-      <li onclick="showInfo('CSBS')">CSBS</li>
-      <li onclick="showInfo('MECH')">MECH</li>
-      <li onclick="showInfo('SF')">SF</li>
-      <li onclick="showInfo('IT')">IT</li>
-      <li onclick="showInfo('M.TECH CSE')">M.TECH CSE</li>
-      <li onclick="showInfo('EEE')">EEE</li>
-      <li onclick="showInfo('AIDS')">AIDS</li>
-      <li onclick="showInfo('PCT')">PCT</li>
-      <li onclick="showInfo('BIO MEDICAL')">BIO MEDICAL</li>
-      <li onclick="showInfo('ECE')">ECE</li>
-      <li onclick="showInfo('AERO')">AERO</li>
-      <li onclick="showInfo('AGRI')">AGRI</li>
-      <li onclick="showInfo('CIVIL')">CIVIL</li>
-    </ul>
-
-    <div class="category" onclick="toggleList('polyList', this)">Polytechnic <i class="fas fa-angle-right"></i></div>
-    <ul class="sub-list" id="polyList">
-      <li onclick="showInfo('DME')">DME</li>
-      <li onclick="showInfo('DECE')">DECE</li>
-      <li onclick="showInfo('D.CIVIL')">D.CIVIL</li>
-      <li onclick="showInfo('DEEE')">DEEE</li>
-      <li onclick="showInfo('DCSE')">DCSE</li>
-      <li onclick="showInfo('D.X-RAY')">D.X-RAY</li>
-      <li onclick="showInfo('DMLT')">DMLT</li>
-    </ul>
+  <div class="overlay" id="homeSection">
+    <h1>Welcome to Excel Institutions</h1>
+    <select id="deptSelect" onchange="showInfo()">
+      <option value="">-- Select Department --</option>
+      <option value="CSE">CSE</option>
+      <option value="FOOT TECH">FOOT TECH</option>
+      <option value="CSBS">CSBS</option>
+      <option value="MECH">MECH</option>
+      <option value="SF">SF</option>
+      <option value="IT">IT</option>
+      <option value="M.TECH CSE">M.TECH CSE</option>
+      <option value="EEE">EEE</option>
+      <option value="AIDS">AIDS</option>
+      <option value="PCT">PCT</option>
+      <option value="BIO MEDICAL">BIO MEDICAL</option>
+      <option value="ECE">ECE</option>
+      <option value="AERO">AERO</option>
+      <option value="AGRI">AGRI</option>
+      <option value="CIVIL">CIVIL</option>
+      <option value="DME">DME</option>
+      <option value="DAE">DAE</option>
+      <option value="D.CIVIL">D.CIVIL</option>
+      <option value="DECE">DECE</option>
+      <option value="DEEE">DEEE</option>
+      <option value="DCSE">DCSE</option>
+      <option value="D.X-RAY">D.X-RAY</option>
+      <option value="DMLT">DMLT</option>
+    </select>
   </div>
 
-  <!-- Main Area -->
-  <div class="main">
-    <div class="center-box">
-      <h1>WELCOME TO EXCEL INSTITUTIONS</h1>
-      <div class="search-container">
-        <input type="text" placeholder="Search a Department...">
-        <button>Search</button>
-      </div>
-    </div>
-  </div>
+  <div class="info" id="infoSection" style="display: none;"></div>
 
   <script>
-    function toggleList(id, el) {
-      const list = document.getElementById(id);
-      list.classList.toggle('show');
-      el.classList.toggle('open');
+    const blockData = {
+      "CSE": "A1 Block",
+      "FOOT TECH": "A1 Block",
+      "CSBS": "A1 Block",
+      "MECH": "A3 Block",
+      "SF": "A3 Block",
+      "IT": "B1 Block",
+      "M.TECH CSE": "B1 Block",
+      "EEE": "B1 Block",
+      "AIDS": "B1 Block",
+      "PCT": "B1 Block",
+      "BIO MEDICAL": "Main Block",
+      "ECE": "Main Block",
+      "AERO": "A4 Block",
+      "AGRI": "Civil Block",
+      "CIVIL": "Civil Block",
+      "DME": "B3 Block",
+      "DAE": "B3 Block",
+      "D.CIVIL": "B3 Block",
+      "DECE": "B3 Block",
+      "DEEE": "B3 Block",
+      "DCSE": "B3 Block",
+      "D.X-RAY": "B3 Block",
+      "DMLT": "B3 Block"
+    };
+
+    const blockMaps = {
+      "A1 Block": "https://www.google.com/maps/d/embed?mid=1KNcSQvjoU3ffNzudIyqIf_7WhkQWsks&ehbc=2E312F",
+      "A3 Block": "https://www.google.com/maps/d/embed?mid=13lQFAKxh6hgutqLy20LRQK6G-WiA76A&ehbc=2E312F",
+      "B1 Block": "https://www.google.com/maps/d/embed?mid=1OWpMa-yX7qHotkPL3oj5o58CqnGR1NA&ehbc=2E312F",
+      "Main Block": "https://www.google.com/maps/d/embed?mid=1kwwXz7YIIN2gBW3dERUDHyEC_arx0XI&ehbc=2E312F",
+      "A4 Block": "https://www.google.com/maps/d/embed?mid=15tqsskF6NgyJav2yebPmDkE7nMs24L8&ehbc=2E312F",
+      "Civil Block": "https://www.google.com/maps/d/embed?mid=1TP1NNf3CrprD1IRkkFVHiJyk6NUq5Hg&ehbc=2E312F",
+      "B3 Block": "https://www.google.com/maps/d/embed?mid=13lQFAKxh6hgutqLy20LRQK6G-WiA76A&ehbc=2E312F"
+    };
+
+    function showInfo() {
+      const dept = document.getElementById("deptSelect").value;
+      if (!dept) return;
+
+      const block = blockData[dept];
+      const mapURL = blockMaps[block] || '';
+
+      document.getElementById("homeSection").style.display = "none";
+
+      const info = `
+        <h2>${dept}</h2>
+        <p><strong>Located in:</strong> ${block}</p>
+        ${mapURL ? `<iframe src="${mapURL}"></iframe>` : "<p>Map not available.</p>"}
+        <button class="back-btn" onclick="goHome()">Back</button>
+      `;
+
+      const section = document.getElementById("infoSection");
+      section.innerHTML = info;
+      section.style.display = "block";
     }
 
-    function showInfo(dept) {
-      alert("Info for " + dept + " will be shown here.");
+    function goHome() {
+      document.getElementById("infoSection").style.display = "none";
+      document.getElementById("homeSection").style.display = "flex";
+      document.getElementById("deptSelect").value = "";
     }
   </script>
 </body>
